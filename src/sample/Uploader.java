@@ -34,8 +34,8 @@ public class Uploader extends Thread {
         try{
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(ClientSocket.getOutputStream());
             objectOutputStream.writeObject(fileMetadata);
-            objectOutputStream.close();
-            Thread.sleep(500);
+
+
             BufferedInputStream bis = new BufferedInputStream(new FileInputStream(FileName));
             BufferedOutputStream bos = new BufferedOutputStream(ClientSocket.getOutputStream());
             Controller.Print("Buffers initialized! \n");

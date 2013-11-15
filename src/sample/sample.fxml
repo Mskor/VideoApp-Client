@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root type="javafx.scene.layout.AnchorPane" id="AnchorPane" fx:id="MainFrame" cache="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="false" pickOnBounds="true" prefHeight="209.0" prefWidth="360.0" snapToPixel="true" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sample.Controller">
+  <children>
+    <AnchorPane fx:id="InputPane" layoutX="0.0" layoutY="39.0" prefHeight="170.0" prefWidth="181.0">
+      <children>
+        <TextField fx:id="HostName" layoutX="14.0" layoutY="27.0" prefWidth="153.0" promptText="Address of the server" />
+        <Label layoutX="14.0" layoutY="11.0" text="Host" />
+        <TextField fx:id="FilePth" layoutX="14.0" layoutY="74.0" prefWidth="153.0" promptText="Choose the file" />
+        <Label layoutX="14.0" layoutY="58.0" text="File path" />
+        <Button id="Run" fx:id="RunButton" cancelButton="false" disable="false" layoutX="14.0" layoutY="110.0" mnemonicParsing="false" onMouseClicked="#RunUpload" prefHeight="34.0" prefWidth="76.0" rotate="360.0" text="Run" textAlignment="CENTER" textFill="BLACK" underline="false" wrapText="false">
+          <font>
+            <Font size="16.0" fx:id="x1" />
+          </font>
+        </Button>
+        <Button fx:id="QuitButton" font="$x1" layoutX="101.0" layoutY="110.0" mnemonicParsing="false" onMouseClicked="#QuitClickHandle" prefHeight="34.0" prefWidth="66.0" text="Quit" />
+        <Button fx:id="FCButton" layoutX="139.0" layoutY="75.0" minHeight="16.0" mnemonicParsing="false" onMouseClicked="#GetFile" prefHeight="20.0" text="...">
+          <font>
+            <Font size="12.0" />
+          </font>
+        </Button>
+      </children>
+    </AnchorPane>
+    <AnchorPane fx:id="OutputPane" layoutX="180.0" layoutY="17.0" prefHeight="192.0" prefWidth="182.0">
+      <children>
+        <TextArea fx:id="TextOut" editable="false" layoutX="4.0" layoutY="48.0" prefHeight="117.0" prefWidth="166.0" wrapText="true" />
+        <Label layoutX="4.0" layoutY="32.0" text="Status" />
+      </children>
+    </AnchorPane>
+    <Label alignment="CENTER" labelFor="$MainFrame" layoutX="73.0" layoutY="12.0" prefHeight="34.0" prefWidth="218.0" text="Client App v.0.4" textAlignment="CENTER" textFill="#330000" underline="false" wrapText="false">
+      <font>
+        <Font size="18.0" />
+      </font>
+    </Label>
+  </children>
+</fx:root>

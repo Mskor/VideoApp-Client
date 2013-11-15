@@ -7,7 +7,6 @@ import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
@@ -37,15 +36,6 @@ public class Controller {
 
     @FXML
     private URL location;
-
-    /**
-     * fx:id refers to File Chooser button
-     * next to the File Chooser text field
-     * @see Controller#FilePth
-     *
-     */
-    @FXML
-    private Button FCButton;
 
     /**
      * fx:id refers to the File Chooser text field
@@ -128,7 +118,7 @@ public class Controller {
                 public void run() {
                     try {
                         TextOut.appendText("Pending the host server... \n");
-                        Socket ClientSocket = new Socket(host, Config.PORT);
+                        Socket ClientSocket = new Socket(host, 8080);
                         TextOut.appendText("Connected! \n");
 
                         new Thread(new ClientUpload(ClientSocket, FileName));
@@ -256,16 +246,6 @@ public class Controller {
             if(FilePth.getText().isEmpty()){
                 TextOut.appendText("File path \n");
             }
-            return;
         }
-    }
-
-    /**
-     * Outputs string to output text area on the window.
-     * This defined for external usage.
-     * @param foo String to be outputted.
-     */
-    static void Print(String foo){
-        TextOut.appendText(foo);
     }
 }

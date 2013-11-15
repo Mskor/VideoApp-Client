@@ -17,8 +17,11 @@ public class Uploader extends Thread {
      *
      */
     String FileName;
+
+    private FileMetadata fileMetadata;
     Uploader(Socket ClientSocket, String FileName){
         this.FileName = FileName;
+        this.fileMetadata = new FileMetadata(new File(FileName));
         this.ClientSocket = ClientSocket;
         this.run();
     }
@@ -29,6 +32,10 @@ public class Uploader extends Thread {
     @Override
     public void run() {
         try{
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(ClientSocket.getOutputStream());
+            objectOutputStream.writeObject(fileMetadata);
+            objectOutputStream.close();
+            Thread.sleep(500);
             BufferedInputStream bis = new BufferedInputStream(new FileInputStream(FileName));
             BufferedOutputStream bos = new BufferedOutputStream(ClientSocket.getOutputStream());
             Controller.Print("Buffers initialized! \n");

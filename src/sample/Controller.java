@@ -7,7 +7,6 @@ import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
@@ -24,8 +23,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * {@literal @FXML} tag is used before a field or a method to grant it visibility
  * to FXML Loader so they can be handled in a correct way.
  *
- * To observe exact process of upload see {@link ClientUpload}
- * and exactly {@link sample.Controller.ClientUpload#run()} method.
+ * To observe exact process of upload see {@link Uploader}
+ * and exactly {@link Uploader#run()} method.
  *
  * @author Yakovlev Oleg NNTU
  * @version 0.4
@@ -37,15 +36,6 @@ public class Controller {
 
     @FXML
     private URL location;
-
-    /**
-     * fx:id refers to File Chooser button
-     * next to the File Chooser text field
-     * @see Controller#FilePth
-     *
-     */
-    @FXML
-    private Button FCButton;
 
     /**
      * fx:id refers to the File Chooser text field
@@ -128,10 +118,9 @@ public class Controller {
                 public void run() {
                     try {
                         TextOut.appendText("Pending the host server... \n");
-                        Socket ClientSocket = new Socket(host, Config.PORT);
+                        Socket ClientSocket = new Socket(host, 8080);
                         TextOut.appendText("Connected! \n");
-
-                        new Thread(new ClientUpload(ClientSocket, FileName));
+                        new Uploader(ClientSocket, FileName);
                     } catch (UnknownHostException uhe){
                         TextOut.appendText("Can't resolve host name");
                     }catch (IOException ioe){
@@ -166,70 +155,6 @@ public class Controller {
             }
         }
     }
-
-
-    class ClientUpload implements Runnable{
-
-        /**
-         * Defines the host
-         * this client should upload to.
-         */
-        Socket ClientSocket;
-
-        /**
-         * The file that should be uploaded to the host which is defined {@link #ClientSocket ClientSocket}.
-         *
-         */
-        String FileName;
-        ClientUpload(Socket ClientSocket, String FileName){
-            this.FileName = FileName;
-            this.ClientSocket = ClientSocket;
-            this.run();
-        }
-
-        /**
-         * Close the connection between the client and the host.
-         */
-        void CloseChannel(){
-            try {
-                ClientSocket.close();
-            }catch (IOException ioe){
-                TextOut.appendText(ioe.getMessage());
-            }
-        }
-
-        /**
-         * Writes a file to the host
-         * through the 8kB byte buffer
-         */
-        public void run(){
-            try{
-                BufferedInputStream bis = new BufferedInputStream(new FileInputStream(FileName));
-                BufferedOutputStream bos = new BufferedOutputStream(ClientSocket.getOutputStream());
-                TextOut.appendText("Buffers initialized! \n");
-
-                int in;
-                byte[] byteArray = new byte[8192];
-                TextOut.appendText("Processing upload... \n");
-                while ((in = bis.read(byteArray)) != -1){
-                    bos.write(byteArray,0,in);
-                }
-                bis.close();
-                bos.close();
-
-                TextOut.appendText("Upload finished! \n");
-            }catch (FileNotFoundException fnfe){
-                TextOut.appendText(fnfe.getMessage());
-                CloseChannel();
-            }catch (Exception e){
-                TextOut.appendText(e.getMessage());
-                CloseChannel();
-            }
-
-        }
-
-    }
-
     @FXML
     void initialize() {
         assert FilePth != null : "fx:id=\"FileName\" was not injected: check your FXML file 'sample.fxml'.";
@@ -256,15 +181,9 @@ public class Controller {
             if(FilePth.getText().isEmpty()){
                 TextOut.appendText("File path \n");
             }
-            return;
         }
     }
 
-    /**
-     * Outputs string to output text area on the window.
-     * This defined for external usage.
-     * @param foo String to be outputted.
-     */
     static void Print(String foo){
         TextOut.appendText(foo);
     }
